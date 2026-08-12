@@ -11,6 +11,7 @@ Taking a look at this folder's most commonly used packages:
 - migen.fhdl.specials
 - migen.fhdl.bitcontainer
 - migen.fhdl.decorators
-- migen.fhdl.simplify
+- migen.fhdl.verilog
+- migen.fhdl.tools
 
 All of these are further explored in this repo's respective folders.
