@@ -1,6 +1,7 @@
 # bitcontainer
 
-This module contains 3 helper functions that make 'bandwidth' calculation between signals easier.\
+This module contains 3 helper functions that make 'bandwidth' calculation between signals easier.
+
 For example, if you have some signal(s) with defined width in bits, and want to make the rest of the design automatically
 adjust while correctly holding values without width mismatches, or want to fit the maximum possible value your design is intended to process:
 
