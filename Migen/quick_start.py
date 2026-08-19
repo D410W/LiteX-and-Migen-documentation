@@ -29,7 +29,7 @@ def testbench(dut):
   yield
   print(f"Final Paused Count: {(yield dut.count)}")
 
-# 3. Simulate or Convert
+# Simulate or Convert
 if __name__ == "__main__":
   dut = Counter(width=8)
   
