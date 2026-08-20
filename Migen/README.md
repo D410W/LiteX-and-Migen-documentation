@@ -4,25 +4,27 @@
 
 Migen powers the digital logic foundation of the [LiteX](https://github.com/enjoy-digital/litex) ecosystem for building complete Systems-on-Chip (SoCs).
 
-* **Official Website:** [m-labs.hk/misc/migen](https://m-labs.hk/misc/migen/)
-* **Upstream Repository:** [github.com/m-labs/migen](https://github.com/m-labs/migen) or [git.m-labs.hk/M-Labs/migen](https://git.m-labs.hk/M-Labs/migen)
+- **Official Website:** [m-labs.hk/misc/migen](https://m-labs.hk/misc/migen/)
+- **Upstream Repository:** [github.com/m-labs/migen](https://github.com/m-labs/migen) or [git.m-labs.hk/M-Labs/migen](https://git.m-labs.hk/M-Labs/migen)
+
+**This section of the repository is designed to teach both simple and advanced Migen techniques which will be of use when creating our custom SoC designs.**
 
 ## Migen workflow
 
 In Migen, Python code executes only once during elaboration to build the hardware:
-* Statements inside `__init__` do not execute at runtime on the FPGA; they register hardware connections.
-* Statements assigned with `+=` to `self.comb` define combinational wires and gates with continuous evaluation.
-* Statements assigned with `+=` to `self.sync` define synchronous operations.
+- Statements inside `__init__` do not execute at runtime on the FPGA; they register hardware connections.
+- Statements assigned with `+=` to `self.comb` define combinational wires and gates with continuous evaluation.
+- Statements assigned with `+=` to `self.sync` define synchronous operations.
 
 ## Repository Structure & Documentation
 
 migen/\
 ├── fhdl/\
-├── sim/\
+├── sim/ * \
 ├── genlib/\
-├── build/\
-├── interconnect/\
-└── actor/
+├── build/ * \
+├── interconnect/ * \
+└── actor/ *
 
 
 ### 1. `fhdl` (Core Language)

@@ -12,10 +12,14 @@ but verify against the source).
 What you will find here is what those sources cannot cover, as more code
 examples, some hardware concepts and so on.
 
-# Motivation
+## Motivation
 
 LiteX is powerful but sparsely documented, and most available examples assume
 prior familiarity with SoC design. New members end up spending their first
 weeks rediscovering the same setup steps and hitting the same errors. This
-repository exists to shorten that path — everything here was written while
+repository exists to shorten that path - everything here was written while
 solving real problems in our projects.
+
+## Repository structure
+
+TODO
