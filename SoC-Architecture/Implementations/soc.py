@@ -7,7 +7,7 @@ from litex.soc.interconnect import wishbone
 from litex.soc.integration.soc import SoCCore, SoCRegion
 from litex.soc.integration.soc_core import *
 
-from kernel_implementations import ReLU
+from kernel_implementations import DMAReLU
 
 
 class Platform(SimPlatform):
@@ -30,7 +30,7 @@ class Platform(SimPlatform):
 
 class AcceleratorSoC(SoCCore):
   def __init__(self, kernel=None, kernel_adr=0x40000000):
-    # A very small SoC with integrated SRAM and UART.
+    # A very small SoC with integrated SRAM.
     platform = Platform()
     sys_clk_freq = int(1e6)
 
@@ -55,14 +55,11 @@ class AcceleratorSoC(SoCCore):
 
     # Memory with 1024 words, 32-bit width
     depth = 1024
-    shared_mem = Memory(width=32, depth=depth)
-    accel_port = shared_mem.get_port(write_capable=True)
+    width = 32
 
-    self.specials += shared_mem, accel_port
-
-    # Create wishbone SRAM interface (CPU Port) and map to address space
+    # Creating wishbone SRAM interface (CPU Port) and map to address space
     self.submodules.shared_ram = wishbone.SRAM(
-      mem_or_size=shared_mem,
+      mem_or_size=width*depth,
       bus=wishbone.Interface(data_width=32),
       read_only=False
     )
@@ -73,4 +70,4 @@ class AcceleratorSoC(SoCCore):
     )
 
     # Connecting the accelerator modules
-    self.relu = ReLU(width=32)
+    self.submodules.relu = DMAReLU(width=32)

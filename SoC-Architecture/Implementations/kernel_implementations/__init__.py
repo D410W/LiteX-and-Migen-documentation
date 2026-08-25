@@ -1,4 +1,5 @@
-from .LightInference import *;
-# from .Conv2D import *;
-# from .Quantizer import *;
-# from .Pooling import *;
+from .LightInference import *
+from DMAInterfaces import *
+# from .Conv2D import *
+# from .Quantizer import *
+# from .Pooling import *

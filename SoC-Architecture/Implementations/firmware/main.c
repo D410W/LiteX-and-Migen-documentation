@@ -63,12 +63,12 @@ int printf(const char *fmt, ...) {
 int run_relu_test(void) {
     volatile uint32_t *bram = (volatile uint32_t *)BRAM_BASE;
     
-    // Define your partition boundaries (e.g., first half input, second half output)
+    // partition boundaries
     const uint32_t IN_OFFSET  = 0;
     const uint32_t OUT_OFFSET = 512;
     const uint32_t TEST_SIZE  = 16; // Number of elements to test
 
-    // Phase 1: Write input test vectors to BRAM
+    // writing input test vectors to BRAM
     for (uint32_t i = 0; i < TEST_SIZE; i++) {
         bram[IN_OFFSET + i] = i * 2; // Test pattern
     }
