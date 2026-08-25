@@ -1,0 +1,7 @@
+__pycache__
+build/
+
+firmware/firmware.bin
+firmware/firmware.elf
+firmware/output_format.ld
+firmware/regions.ld
