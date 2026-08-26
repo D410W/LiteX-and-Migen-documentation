@@ -6,7 +6,7 @@ from litex.soc.integration.builder import Builder
 from soc import AcceleratorSoC
 
 def main():
-  parser = argparse.ArgumentParser(description="Minimal LiteX SoC example")
+  parser = argparse.ArgumentParser(description="Minimal LiteX vision and signal SoC accelerator")
   parser.add_argument("--output-dir", default="build")
   
   parser.add_argument("--kernel", default=None,

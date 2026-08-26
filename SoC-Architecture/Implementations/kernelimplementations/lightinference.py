@@ -8,7 +8,7 @@ class ReLU(Module):
     self.o = Signal((width, True))
 
     self.comb += [
-      If(self.i[-1],
+      If(self.i[width - 1],
         self.o.eq(0)
       ).Else(
         self.o.eq(self.i)
@@ -22,7 +22,7 @@ class ReLUVector(Module):
 
     for idx in range(vec_size):
       self.comb += [
-        If(self.i[idx][-1],
+        If(self.i[idx][width - 1],
           self.o[idx].eq(0)
         ).Else(
           self.o[idx].eq(self.i)

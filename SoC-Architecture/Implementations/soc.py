@@ -8,7 +8,7 @@ from litex.soc.integration.soc import SoCCore, SoCRegion
 from litex.soc.integration.soc_core import *
 from litex.soc.cores.dma import WishboneDMAReader, WishboneDMAWriter
 
-from kernel_implementations import DMAReLU
+from kernelimplementations import DMAReLU
 
 
 class Platform(SimPlatform):
@@ -73,14 +73,15 @@ class AcceleratorSoC(SoCCore):
     # DMA reader: fetches from wishbone, emits stream of data
     self.submodules.dma_reader = WishboneDMAReader(
       bus=wishbone.Interface(data_width=32),
-      endianness=self.cpu.endianness,
+      endianness="big",
       with_csr=True,
     )
 
     # DMA writer: consumes a stream of data, writes to wishbone
     self.submodules.dma_writer = WishboneDMAWriter(
       bus=wishbone.Interface(data_width=32),
-      endianness=self.cpu.endianness,
+      # endianness=self.cpu.endianness,
+      endianness="big", # LiteX reverses bytes if set to self.cpu.endianness (little), for some reason??
       with_csr=True,
     )
 
@@ -88,7 +89,7 @@ class AcceleratorSoC(SoCCore):
     self.bus.add_master(name="dma_reader", master=self.dma_reader.bus)
     self.bus.add_master(name="dma_writer", master=self.dma_writer.bus)
 
-    self.submodules.relu = DMAReLU(width=32) # Accelerator module
+    self.submodules.relu = DMAReLU(width=32, vector_size=2) # Accelerator module
     
     # Connecting the accelerator module to the DMA
     self.comb += [

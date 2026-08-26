@@ -60,8 +60,15 @@ int printf(const char *fmt, ...) {
 
 #define BRAM_BASE SHARED_RAM_BASE
 
+static inline uint32_t read_cycles(void) {
+    uint32_t cycles;
+    asm volatile ("rdcycle %0" : "=r"(cycles));
+    return cycles;
+}
+
 void run_relu_test(void) {
-    volatile int32_t *bram = (volatile uint32_t *)BRAM_BASE;
+    volatile int32_t *bram = (volatile int32_t *)BRAM_BASE;
+    volatile int16_t *bram16 = (volatile int16_t*)bram;
     
     // partition boundaries
     const uint32_t IN_OFFSET = 0;
@@ -72,8 +79,12 @@ void run_relu_test(void) {
     // writing input test vectors to BRAM
     printf("Input: ");
     for (uint32_t i = 0; i < TEST_SIZE; i++) {
-      bram[IN_OFFSET + i] = (i % 2 == 0) ? (int32_t)(-i * 2) : (int32_t)(i * 3);
-      printf("%d ", bram[IN_OFFSET + i]);
+      uint32_t index = 2 * (IN_OFFSET + i);
+
+      bram16[index] = (i % 2 == 0) ? (int16_t)(-i * 2) : (int16_t)(i * 3);
+      bram16[index + 1] = (i % 2 == 0) ? (int16_t)(-i * 7) : (int16_t)(i * 11);
+
+      printf("(%d, %d) ", bram16[index], bram16[index + 1]);
     }
     printf("\n");
     
@@ -93,7 +104,8 @@ void run_relu_test(void) {
 
     printf("Output: ");
     for (uint32_t i = 0; i < TEST_SIZE; i++) {
-        printf("%d ", bram[OUT_OFFSET + i]);
+      uint32_t index = 2 * (OUT_OFFSET + i);
+      printf("(%d, %d) ", bram16[index], bram16[index + 1]);
     }
     printf("\n");
 
