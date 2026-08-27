@@ -24,6 +24,7 @@ class StreamReLU(Module):
   """
   def __init__(self, data_width=32, vector_size=1):
     assert (data_width % vector_size) == 0
+    assert vector_size >= 1
     lane_width = data_width // vector_size
 
     self.sink   = stream.Endpoint([("data", (data_width, True))])
