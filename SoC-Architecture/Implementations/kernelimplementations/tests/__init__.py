@@ -1,1 +1,2 @@
-from .test_light_inf import *
+from .testlightinf import *
+from .testpooling import *

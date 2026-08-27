@@ -8,7 +8,7 @@ from litex.soc.integration.soc import SoCCore, SoCRegion
 from litex.soc.integration.soc_core import *
 from litex.soc.cores.dma import WishboneDMAReader, WishboneDMAWriter
 
-from kernelimplementations import DMAReLU
+from kernelimplementations import StreamReLU, StreamMaxPooling
 
 
 class Platform(SimPlatform):
@@ -89,10 +89,11 @@ class AcceleratorSoC(SoCCore):
     self.bus.add_master(name="dma_reader", master=self.dma_reader.bus)
     self.bus.add_master(name="dma_writer", master=self.dma_writer.bus)
 
-    self.submodules.relu = DMAReLU(width=32, vector_size=2) # Accelerator module
+    # self.submodules.relu = StreamReLU(width=32, vector_size=2) # Accelerator module
+    self.submodules.maxpooling = StreamMaxPooling(data_width=32, signed=True) # Accelerator module
     
     # Connecting the accelerator module to the DMA
     self.comb += [
-      self.dma_reader.source.connect(self.relu.sink),
-      self.relu.source.connect(self.dma_writer.sink),
+      self.dma_reader.source.connect(self.maxpooling.sink),
+      self.maxpooling.source.connect(self.dma_writer.sink),
     ]
