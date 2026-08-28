@@ -4,6 +4,7 @@ import argparse
 from .streaminterfaces import *
 from .tests.testlightinf import test_ligh_inference
 from .tests.testpooling import test_pooling
+from .tests.testquantizer import test_quantizer
 
 
 def main():
@@ -31,6 +32,9 @@ def main():
 
   if test_all or modules_to_test['pooling']:
     test_pooling()
+
+  if test_all or modules_to_test['quantizer']:
+      test_quantizer()
 
 if __name__ == '__main__':
   main()

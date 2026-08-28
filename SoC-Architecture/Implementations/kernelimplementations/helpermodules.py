@@ -25,6 +25,7 @@ class LineBuffer(Module):
       self.source.data.eq(fifo.dout), # data out
     ]
 
+
 class PoolingPositionCounter(Module):
   """
   A counter for the pixel's positions x and y, as well as kernel's positions.
@@ -119,17 +120,66 @@ class PoolingPositionCounter(Module):
       )
     ]
 
+
+class SlidingWindow2D(Module):
+  def __init__(self, data_width=8, kernel_size=3, max_width=512, max_height=512, signed=True):
+    self.kernel_area = kernel_size * kernel_size
+
+    # Stream input (pixels)
+    self.sink = stream.Endpoint([("data", (data_width, signed))])
+
+    # Dynamic dimensions
+    self.width  = Signal(16)
+    self.height = Signal(16)
+
+    # Downstream flow control
+    self.ready_out = Signal() # Output ready (from conv2d)
+    self.valid_out = Signal() # Output valid (when full KxK window is ready)
+
+    # Flat parallel outputs exposed to compute cores (Conv2D, etc.)
+    # self.pixels = [
+    #   Signal((data_width, signed), name=f"win_pix_{i}") 
+    #   for i in range(self.kernel_area)
+    # ]
+    self.pixels = [
+      [
+        Signal((data_width, signed), name=f'win_pix_{i}_{j}')
+        for i in range(kernel_size)
+      ]
+      for j in range(kernel_size)
+    ]
+
+    # Line buffers
+    self.submodules.line_buffers = [LineBuffer(depth=kernel_size-1, data_width=data_width, signed=signed) for _ in range(kernel_size - 1)]
+
+    # Shift registers (KxK 2D array)
+    
+    
+    # Raster coordinate counter (x, y)
+
+    # IO logic
+    
+
+def build_tree(operands, operation):
+  current_level = operands
+  while len(current_level) > 1:
+    next_level = []
+    for i in range(0, len(current_level), 2):
+      if i + 1 < len(current_level):
+        next_level.append(operation(current_level[i], current_level[i + 1]))
+      else: # odd element
+        next_level.append(current_level[i])
+    current_level = next_level
+  return current_level[0]
+
 def signed_max(a, b):
-    return Mux(a > b, a, b)
+  return Mux(a > b, a, b)
 
 def build_max_tree(operands):
-    current_level = operands
-    while len(current_level) > 1:
-        next_level = []
-        for i in range(0, len(current_level), 2):
-            if i + 1 < len(current_level):
-                next_level.append(signed_max(current_level[i], current_level[i + 1]))
-            else: # odd element
-                next_level.append(current_level[i])
-        current_level = next_level
-    return current_level[0]
+  return build_tree(operands, signed_max)
+
+def signed_sum(a, b):
+  return a + b
+
+def build_sum_tree(operands):
+  return build_tree(operands, signed_sum)

@@ -59,6 +59,10 @@ def pooling_testbench(dut, test):
 
     yield
 
+    # Wait for sink to be accepted if DUT stalls
+    while not (yield dut.sink.ready):
+        yield
+
     out_packet = (yield dut.source.data)
     out_valid  = (yield dut.source.valid)
 
@@ -70,7 +74,6 @@ def pooling_testbench(dut, test):
 
   assert len(output) == len(expected), "Amount of expected output elements differ"
   for exp, act in zip(expected, output):
-    print('Data out: ', output)
     assert act == exp, f"Mismatch: expected {exp}, got {act}"
 
   # Disabling stream
@@ -128,4 +131,4 @@ def test_pooling():
     except AssertionError as e:
       print(f"[FAIL] {e}")
 
-  print(f"Finished testing 'StreamReLU, {passed} out of {len(tests)} tests passed.")
+  print(f"Finished testing 'MaxPooling, {passed} out of {len(tests)} tests passed.")
