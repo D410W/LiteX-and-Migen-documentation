@@ -74,7 +74,6 @@ def test_ligh_inference():
       'elements': [131, -132, -133, -134, 245, 566],
       'testbench': light_inf_testbench,
     },
-
   ]
 
   passed = 0

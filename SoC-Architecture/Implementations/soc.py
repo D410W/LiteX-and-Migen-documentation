@@ -92,7 +92,7 @@ class AcceleratorSoC(SoCCore):
     # self.submodules.relu = StreamReLU(width=32, vector_size=2) # Accelerator module
     self.submodules.maxpooling = StreamMaxPooling(data_width=32, signed=True) # Accelerator module
     
-    # Connecting the accelerator module to the DMA
+    # Connecting the accelerator module to the DMA reader and writer
     self.comb += [
       self.dma_reader.source.connect(self.maxpooling.sink),
       self.maxpooling.source.connect(self.dma_writer.sink),

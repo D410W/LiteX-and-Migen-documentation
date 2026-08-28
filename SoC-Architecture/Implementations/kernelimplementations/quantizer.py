@@ -104,5 +104,3 @@ class StreamSymDyQuantizer(Module, AutoCSR):
       self.source.valid.eq(self.sink.valid),
       self.sink.ready.eq(self.source.ready),
     ]
-
-dut = StreamSymDyQuantizer()
