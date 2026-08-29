@@ -5,6 +5,7 @@ from .streaminterfaces import *
 from .tests.testlightinf import test_ligh_inference
 from .tests.testpooling import test_pooling
 from .tests.testquantizer import test_quantizer
+from .tests.testconv2d import test_conv2d
 
 
 def main():
@@ -34,7 +35,10 @@ def main():
     test_pooling()
 
   if test_all or modules_to_test['quantizer']:
-      test_quantizer()
+    test_quantizer()
+
+  if test_all or modules_to_test['conv_2d']:
+    test_conv2d()
 
 if __name__ == '__main__':
   main()

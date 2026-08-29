@@ -1,20 +1,6 @@
 from migen import *
 from .. import StreamSymDyQuantizer
 
-# def to_unsigned(val, bits):
-#   """
-#   Encodes a signed integer into an unsigned two's complement bitfield.
-#   """
-#   return val & ((1 << bits) - 1)
-
-# def to_signed(val, bits):
-#   """
-#   Decodes an unsigned two's complement bitfield into a signed integer.
-#   """
-#   if val & (1 << (bits - 1)):
-#       return val - (1 << bits)
-#   return val
-
 
 def quantizer_reference(elements, multiplier, shift, out_width):
   quant_min = -(1 << (out_width - 1))      # -128 for INT8

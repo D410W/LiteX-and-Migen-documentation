@@ -45,8 +45,9 @@ class SlidingWindow2D(Module):
       self.pos_counter.height.eq(self.height),
       self.pos_counter.enable.eq(data_moving),
     ]
+
     
-    # Shift registers (KxK 2D array)
+    # Shift registers
     row_inputs = []
     for r in range(kernel_size):
       if r == kernel_size - 1:
@@ -55,23 +56,36 @@ class SlidingWindow2D(Module):
         kernel_idx = kernel_size - r - 2
         row_inputs.append(self.line_buffers[kernel_idx].source.data)
     
+    # History registers (2D)
+    self.hist_pixels = [
+      [
+        Signal((data_width, signed), name=f'hist_pix_{r}_{c}')
+        for c in range(kernel_size - 1)
+      ]
+      for r in range(kernel_size)
+    ]
+
     self.sync += [
       If(data_moving,
-        # Shift and update the 2D window matrix
         *[
           [
-            # Shift right within the row
-            self.pixels[r][c].eq(self.pixels[r][c + 1])
-            for c in range(kernel_size - 1)
+            self.hist_pixels[r][c].eq(self.hist_pixels[r][c + 1])
+            for c in range(kernel_size - 2)
           ] + [
-            # Insert new pixel at column 0 of row r
-            self.pixels[r][kernel_size - 1].eq(row_inputs[r])
+            self.hist_pixels[r][kernel_size - 2].eq(row_inputs[r])
           ]
           for r in range(kernel_size)
         ]
       )
     ]
-    
+
+    for r in range(kernel_size):
+      for c in range(kernel_size):
+        if c == kernel_size - 1:
+          self.comb += self.pixels[r][c].eq(row_inputs[r])
+        else:
+          self.comb += self.pixels[r][c].eq(self.hist_pixels[r][c])
+        
     # Internal data flow
     for idx, lb in enumerate(self.line_buffers):
       # Only pop once enough lines have entered the pipeline

@@ -103,5 +103,3 @@ class StreamConv2D(Module, AutoCSR):
       self.source.valid.eq(self.window.valid_out),
       self.window.ready_out.eq(self.source.ready)
     ]
-
-dut = StreamConv2D()
