@@ -30,7 +30,8 @@ class StreamReLU(Module):
     self.sink   = stream.Endpoint([("data", (data_width, True))])
     self.source = stream.Endpoint([("data", (data_width, True))])
 
-    self.submodules.relus = [ReLU(width=lane_width) for _ in range(vector_size)]
+    self.relus = [ReLU(width=lane_width) for _ in range(vector_size)]
+    self.submodules += self.relus
 
     # ReLU handshake as a combinational pass-through
     self.comb += [

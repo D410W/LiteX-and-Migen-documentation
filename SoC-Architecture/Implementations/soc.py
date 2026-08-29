@@ -8,7 +8,7 @@ from litex.soc.integration.soc import SoCCore, SoCRegion
 from litex.soc.integration.soc_core import *
 from litex.soc.cores.dma import WishboneDMAReader, WishboneDMAWriter
 
-from kernelimplementations import StreamReLU, StreamMaxPooling
+from kernelimplementations import StreamReLU, StreamMaxPooling, StreamConv2D, StreamSymDyQuantizer
 
 
 class Platform(SimPlatform):

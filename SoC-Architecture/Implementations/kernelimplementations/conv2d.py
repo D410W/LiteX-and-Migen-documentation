@@ -49,10 +49,12 @@ class StreamConv2D(Module, AutoCSR):
     self.csr_width   = CSRStorage(16, reset=8, description="Image Width")
     self.csr_height  = CSRStorage(16, reset=8, description="Image Height")
     self.csr_bias  = CSRStorage(bias_width, reset=0, description="Conv2D Bias")
-    self.csr_weights = [
-      CSRStorage(weight_width, name=f"w_{i}", description=f"Kernel Weight {i}")
-      for i in range(kernel_area)
-    ]
+    self.csr_weights = []
+    for i in range(kernel_area):
+      csr_w = CSRStorage(weight_width, name=f"w_{i}", description=f"Kernel Weight {i}")
+
+      self.csr_weights.append(csr_w)
+      setattr(self, f"csr_w_{i}", csr_w)
 
     # Sliding window buffer and arithmetic core
     self.submodules.window = SlidingWindow2D(

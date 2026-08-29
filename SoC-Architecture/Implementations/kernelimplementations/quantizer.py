@@ -79,10 +79,11 @@ class StreamSymDyQuantizer(Module, AutoCSR):
     self.csr_mult  = CSRStorage(mult_width, description="Quantization multiplier (M)")
     self.csr_shift = CSRStorage(5,          description="Dyadic right-shift exponent (n)")
 
-    self.submodules.quantizers = [
+    self.quantizers = [
       SymDyQuantizer(in_width=in_width, out_width=out_width, mult_width=mult_width)
       for _ in range(vector_size)
     ]
+    self.submodules += self.quantizers
 
     # Quantizer submodules input connections
     for i in range(vector_size):

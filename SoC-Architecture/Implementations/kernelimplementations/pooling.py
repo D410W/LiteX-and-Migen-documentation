@@ -32,7 +32,8 @@ class StreamMaxPooling(Module, AutoCSR):
     h_accumulator = Signal((data_width, signed)) # Updated on the next clock cycle
     h_max = Signal((data_width, signed)) # Updated combinationally (available this cycle)
 
-    self.submodules.line_buffers = [LineBuffer(depth=max_kernels_width, data_width=data_width, signed=signed) for _ in range(kernel_size - 1)]
+    self.line_buffers = [LineBuffer(depth=max_kernels_width, data_width=data_width, signed=signed) for _ in range(kernel_size - 1)]
+    self.submodules += self.line_buffers
 
     # Coordinate tracking
     self.submodules.pooling_counter = PoolingPositionCounter(

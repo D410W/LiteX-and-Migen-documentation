@@ -31,10 +31,12 @@ class SlidingWindow2D(Module):
     ]
 
     # Line buffers
-    self.submodules.line_buffers = [
+    self.line_buffers = [
       LineBuffer(depth=max_width, data_width=data_width, signed=signed)
       for _ in range(kernel_size - 1)
     ]
+
+    self.submodules += self.line_buffers
 
     # Pixel coordinate counter (x, y)
     self.submodules.pos_counter = PositionCounter(
