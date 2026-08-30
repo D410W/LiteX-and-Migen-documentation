@@ -50,4 +50,5 @@ SoC/ \
 ├── 02_litex_soc/           # Base SoCCore targets & memory maps \
 ├── 03_control_plane/       # CSR peripherals & bare-metal C drivers \
 ├── 04_data_plane/          # DMA streaming pipelines & LiteDRAM integration \
-└── 05_custom_accelerator/  # Capstone DSP/vision accelerator & benchmark tests \
+├── 05_custom_accelerator/  # Capstone DSP/vision accelerator & benchmark tests \
+└── Implementations/        # Reference implementations of the entire vision accelerator structure

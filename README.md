@@ -22,4 +22,6 @@ solving real problems in our projects.
 
 ## Repository structure
 
-TODO
+├── Migen/                # An explanation of the HDL (High-level Description Language) that LiteX uses for all of it's designs \
+├── Hardware-Concepts/    # (NOT FINISHED) An intro to low-level concepts about general hardware flow of data \
+└── SoC-Architecture/     # (NOT FINISHED) Digital hardware design and System-on-Chip (SoC) construction

@@ -10,8 +10,14 @@ The folder `firmware` contains the firmware code and compilation script. You sho
 
 ### Simulating the LiteX design
 
-Simply run `simulation.py`, which imports the `soc.py` SoC design and runs it with controlled settings.
+Simply compile the bare-metal C firmware and run `simulation.py`, which imports the `soc.py` SoC design and runs it with controlled settings.
 
 ```bash
+cd firmware/
+
+./compile.sh
+
+cd ..
+
 python simlation.py --kernel firmware/firmware.bin
 ```

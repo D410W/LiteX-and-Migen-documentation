@@ -9,7 +9,7 @@ for module in modules:
   for family in families[1:3]:
     pnr_filename = f'pnr_report_{module}_{family.removeprefix('synth_')}.txt'
     with open(pnr_filename) as pnr_file:
-      print(pnr_filename)
+      print(f"Getting frequency for: '{pnr_filename}'.")
       pnr_report = pnr_file.read()
 
       report_lines = pnr_report.split('\n')
@@ -21,6 +21,14 @@ for module in modules:
 
         combined += f"### Frequency report from 'nextpnr-{family.removeprefix('synth_')}'"
         combined += frequency_report
+      else:
+        print("Failed to find frequency result.")
+        combined += f"### Frequency report from 'nextpnr-{family.removeprefix('synth_')}'"
+        combined += "\n\n```\n" + "No max frequency report from nextpnr." + "\n```\n\n"
+
+      combined += "Last 40 lines from freq. report:\n\n```\n"
+      combined += '\n'.join(report_lines[-40:-1])
+      combined += '\n```\n'
 
   for family in families:
     filename = f'report_{module}_{family}.txt'
