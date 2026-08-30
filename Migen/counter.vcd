@@ -1,0 +1,51 @@
+$scope module Counter $end
+$var wire 8 ! count $end
+$var wire 1 " enable $end
+$var wire 1 # sys_clk $end
+$enddefinitions $end
+$dumpvars
+$end
+#0
+b00000000 !
+0"
+0#
+#5
+1"
+1#
+#10
+0#
+#15
+b00000001 !
+1#
+#20
+0#
+#25
+b00000010 !
+1#
+#30
+0#
+#35
+b00000011 !
+1#
+#40
+0#
+#45
+b00000100 !
+1#
+#50
+0#
+#55
+b00000101 !
+0"
+1#
+#60
+0#
+#65
+1#
+#70
+0#
+#75
+1#
+b00000000 !
+0"
+0#

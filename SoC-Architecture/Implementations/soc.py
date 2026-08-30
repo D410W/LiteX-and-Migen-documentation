@@ -1,0 +1,99 @@
+from migen import *
+
+from litex.build.generic_platform import *
+from litex.build.io import CRG
+from litex.build.sim import SimPlatform
+from litex.soc.interconnect import wishbone
+from litex.soc.integration.soc import SoCCore, SoCRegion
+from litex.soc.integration.soc_core import *
+from litex.soc.cores.dma import WishboneDMAReader, WishboneDMAWriter
+
+from kernelimplementations import StreamReLU, StreamMaxPooling, StreamConv2D, StreamSymDyQuantizer
+
+
+class Platform(SimPlatform):
+  def __init__(self):
+    # The simulator UART bridge expects a serial interface.
+    io = [
+      ("sys_clk", 0, Pins(1)),
+      ("sys_rst", 0, Pins(1)),
+      ("serial", 0,
+        Subsignal("source_valid", Pins(1)),
+        Subsignal("source_ready", Pins(1)),
+        Subsignal("source_data",  Pins(8)),
+        Subsignal("sink_valid",   Pins(1)),
+        Subsignal("sink_ready",   Pins(1)),
+        Subsignal("sink_data",    Pins(8)),
+      ),
+    ]
+    SimPlatform.__init__(self, "SIM", io)
+
+
+class AcceleratorSoC(SoCCore):
+  def __init__(self, kernel=None, kernel_adr=0x40000000):
+    # A very small SoC with integrated SRAM.
+    platform = Platform()
+    sys_clk_freq = int(1e6)
+
+    SoCCore.__init__(self, platform, clk_freq=sys_clk_freq,
+      cpu_type="vexriscv",
+      cpu_variant="minimal",
+      ident="Minimal LiteX SoC",
+      with_uart=True,
+      uart_name="sim",
+      integrated_rom_size=0x0,
+      integrated_sram_size=0x2000,
+      integrated_main_ram_size=0x2000,
+
+      integrated_main_ram_init=get_mem_data(
+        filename_or_regions=kernel,
+        data_width=32,
+        endianness="little",
+      ),
+      cpu_reset_address=int(str(kernel_adr), 0),
+    )
+    self.submodules.crg = CRG(platform.request("sys_clk"))
+
+    # Memory with 1024 words, 32-bit width
+    depth = 1024
+    width = 32
+
+    # Creating wishbone SRAM interface (CPU Port) and map to address space
+    self.submodules.shared_ram = wishbone.SRAM(
+      mem_or_size=(width // 8)*depth,
+      bus=wishbone.Interface(data_width=32),
+      read_only=False
+    )
+    self.bus.add_slave(
+      name="shared_ram",
+      slave=self.shared_ram.bus,
+      region=SoCRegion(origin=0x80000000, size=depth * 4, cached=False)
+    )
+
+    # DMA reader: fetches from wishbone, emits stream of data
+    self.submodules.dma_reader = WishboneDMAReader(
+      bus=wishbone.Interface(data_width=32),
+      endianness="big",
+      with_csr=True,
+    )
+
+    # DMA writer: consumes a stream of data, writes to wishbone
+    self.submodules.dma_writer = WishboneDMAWriter(
+      bus=wishbone.Interface(data_width=32),
+      # endianness=self.cpu.endianness,
+      endianness="big", # LiteX reverses bytes if set to self.cpu.endianness (little), for some reason??
+      with_csr=True,
+    )
+
+    # Registering both DMA reader and writer for bus communication
+    self.bus.add_master(name="dma_reader", master=self.dma_reader.bus)
+    self.bus.add_master(name="dma_writer", master=self.dma_writer.bus)
+
+    # self.submodules.relu = StreamReLU(width=32, vector_size=2) # Accelerator module
+    self.submodules.maxpooling = StreamMaxPooling(data_width=32, signed=True) # Accelerator module
+    
+    # Connecting the accelerator module to the DMA reader and writer
+    self.comb += [
+      self.dma_reader.source.connect(self.maxpooling.sink),
+      self.maxpooling.source.connect(self.dma_writer.sink),
+    ]
