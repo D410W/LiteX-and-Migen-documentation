@@ -36,7 +36,14 @@ A combinational is any circuit that its outputs depends solely of the input sign
 
 ![A simple combinational circuit](images/acircuitocomb.png)
 
-The output depends solely of the two input values and the arrangement of the logic gates, nothing elese.
+The output depends solely of the two input values and the arrangement of the logic gates, nothing elese. These logic gates can be combined to create other basic building blocks like multiplexers, encoders and decordes.
+
+### Multiplexer (Mux)
+
+A multiplexer (also called mux) is a combinational circuit that is used to make one of the input signals goes directly to the output signal. For that, the mux has an additional input called selector. It is used to literally select which signal must go to the output. The figures below show a simple 2x1 mux.
+
+![Mux 2x1 example](images/mux2x1_1.png)
+![Mux 2x1 example](images/mux2x1_2.png)
 
 
 
