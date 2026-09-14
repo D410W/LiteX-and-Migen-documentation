@@ -32,7 +32,11 @@ Other gates like nor, nand, xnor can be built using the 3 basic gates above, so 
 
 # Combinational circuits
 
-A combinational is any circuit that its outputs depends solely of the input signals and the arrangement of logic gates.
+A combinational is any circuit that its outputs depends solely of the input signals and the arrangement of logic gates. They are also called circuits without memory. These circuits are useful to create specific components that don't require complex operations, but only combinations to create desired result. figure below shows a simple combinational circuit.
+
+![A simple combinational circuit](images/acircuitocomb.png)
+
+The output depends solely of the two input values and the arrangement of the logic gates, nothing elese.
 
 
 
@@ -61,3 +65,6 @@ Set of tracks used to transport control and time data between the UCP and other 
 # References
 
 https://www.bosontreinamentos.com.br/eletronica/eletronica-digital/porta-logica-and/
+https://www.bosontreinamentos.com.br/eletronica/eletronica-digital/porta-logica-not-inversora/
+https://www.bosontreinamentos.com.br/eletronica/eletronica-digital/porta-logica-nor/
+
