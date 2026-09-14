@@ -11,3 +11,15 @@ A computer is any device that is able to **receive, store, compute and show** da
 A data bus is a communication system used to exchange data between different componentes inside a computer (like data being transferred between processor and mother board). There are 3 kinds of data bus: control bus, address bus and data bus. Image below show a schematich.
 
 ![Computer bus](images/computerBus.webp)
+
+### Address bus
+
+It is a set of tracks (wires) used to identify blocks of memory, locating the right memory address. It transports memory address used by the processor to access these address, writting or reading dada from them. It is an unidirectional bus (only one direction).
+
+### Data bus
+
+Set of tracks used to send/receive data from one component to another, like from processor and memory or I/O devices. It is a bidirectional bus, so data can be sent and received by same bus.
+
+### Control bus
+
+Set of tracks used to transport control and time data between the UCP and other devices. 
