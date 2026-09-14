@@ -8,11 +8,34 @@ A computer is any device that is able to **receive, store, compute and show** da
 
 # Basic logic gates
 
-## And gate
+### And gate
 
 The and gate is one of the basic building blocks of the digital systems. It is made of inputs, output and logic. The output signal will be 1 if all inputs are 1, 0 in another case. The figure below show The and gate, its logic and the set of transistors used to build this logic gate.
 
 ![And gate](images/andgate.png)
+
+### Or gate
+
+The or gate is the opposite of the and gate. the output signal will be 1 if at least one of input signals is 1. If all input signals are 0, so the output signal is 0. The figure bellow show the or gate schematic, its logic and the set of transistors.
+
+![Or gate](images/orgate.png)
+
+### Not gate
+
+The not gate is also called the inverter gate, because it inverts the input signal and send it to the output signal, so output signal will be the inverted input signal. The photo bellow show the schematic, its logic and set of transistors:
+
+![Not gate](images/anotgate.png)
+
+### Other gates
+
+Other gates like nor, nand, xnor can be built using the 3 basic gates above, so we are not going to discuss them here. If you wanna try them, use some online simulator and test the combinations to create them.
+
+# Combinational circuits
+
+A combinational is any circuit that its outputs depends solely of the input signals and the arrangement of logic gates.
+
+
+
 
 
 ## Data bus
@@ -32,3 +55,9 @@ Set of tracks used to send/receive data from one component to another, like from
 ### Control bus
 
 Set of tracks used to transport control and time data between the UCP and other devices. 
+
+
+
+# References
+
+https://www.bosontreinamentos.com.br/eletronica/eletronica-digital/porta-logica-and/
