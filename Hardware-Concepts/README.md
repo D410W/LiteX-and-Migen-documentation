@@ -12,6 +12,8 @@ A computer is any device that is able to **receive, store, compute and show** da
 
 The and gate is one of the basic building blocks of the digital systems. It is made of inputs, output and logic. The output signal will be 1 if all inputs are 1, 0 in another case. The figure below show The and gate, its logic and the set of transistors used to build this logic gate.
 
+![And gate](images/andgate.png)
+
 
 ## Data bus
 
