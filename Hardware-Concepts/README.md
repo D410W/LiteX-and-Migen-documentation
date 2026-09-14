@@ -9,3 +9,5 @@ A computer is any device that is able to **receive, store, compute and show** da
 ## Data bus
 
 A data bus is a communication system used to exchange data between different componentes inside a computer (like data being transferred between processor and mother board). There are 3 kinds of data bus: control bus, address bus and data bus. Image below show a schematich.
+
+![alt text](iages/computerBus.webp)
