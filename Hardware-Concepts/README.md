@@ -86,4 +86,5 @@ Set of tracks used to transport control and time data between the UCP and other 
 https://www.bosontreinamentos.com.br/eletronica/eletronica-digital/porta-logica-and/
 https://www.bosontreinamentos.com.br/eletronica/eletronica-digital/porta-logica-not-inversora/
 https://www.bosontreinamentos.com.br/eletronica/eletronica-digital/porta-logica-nor/
+https://www.geeksforgeeks.org/digital-logic/applications-of-decoders/
 
