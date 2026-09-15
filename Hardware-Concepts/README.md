@@ -45,7 +45,19 @@ A multiplexer (also called mux) is a combinational circuit that is used to make 
 ![Mux 2x1 example](images/mux2x1_1.png)
 ![Mux 2x1 example](images/mux2x1_2.png)
 
+As you can see, the output signal is one of the inputs and the selector input chooses it. Muxes are a very important building block in digital design. 
 
+### Decoders
+
+Decorders are also building blocks commonly used in digital circuitos. A decoder decodes an input n-bit binary number by setting one of the decorder's 2^n^ outputs to 1. For example, a 2-input decoder would have 2^n^ outputs. The image bellow shows a decoder internally and how it works.
+
+![A decoder example](images/decoder.png)
+
+When both inputs are 0, the output 0 is 1, if input 0 becomes 1.
+
+![A decoder example](images/decoder2.png)
+
+ Then the output 0 becomes 0 and output 3 becomes 1. Always one of the outputs will be 1 no matter the values of the inputs. 
 
 
 
